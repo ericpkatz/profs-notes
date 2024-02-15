@@ -3,8 +3,11 @@ const pg = require('pg');
 const client = new pg.Client(process.env.DATABASE_URL || 'postgres://localhost/acme_notes_db');
 const express = require('express');
 const app = express();
+const path = require('path');
 
+app.use('/assets', express.static(path.join(__dirname, '../client/dist/assets')));
 // static routes here (you only need these for deployment)
+app.get('/', (req, res)=> res.sendFile(path.join(__dirname, '../client/dist/index.html')));
 
 // app routes here
 app.get('/api/notes', async(req, res, next)=> {
